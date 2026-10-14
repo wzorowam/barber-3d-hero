@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { mergeGeometries } from 'three/addons/utils/BufferGeometryUtils.js';
 import { RoomEnvironment } from 'three/addons/environments/RoomEnvironment.js';
+import { GLTFLoader } from 'three/addons/loaders/GLTFLoader.js';
 import { poseAt } from './pose.js';
 import { pixelRatio } from './detect.js';
 
@@ -204,71 +205,50 @@ function cardAt(origin, direction, length, width, bend, noise, mode, normalHint,
   return geo;
 }
 
-function buildHair(mobile) {
+function pickSample(list, rng) {
+  return list[Math.floor(rng() * list.length)];
+}
+
+function buildHair(mobile, samples) {
   const rng = mulberry32(20261014);
   const geos = [];
-  const messyCount = mobile ? 64 : 110;
-  const topCount = mobile ? 36 : 60;
-  const fadeCount = mobile ? 50 : 86;
-
-  const clumps = Array.from({ length: Math.ceil(messyCount / 4) }, () => ({
-    phi: 0.28 + rng() * 1.05,
-    theta: Math.PI * 0.5 + (rng() - 0.5) * 2.6,
-    len: 0.2 + rng() * 0.22,
-    width: 0.02 + rng() * 0.018,
-    bend: (rng() - 0.35) * 0.2,
-    flop: rng(),
-  }));
+  const maxY = samples.reduce((max, sample) => Math.max(max, sample.p.y), -Infinity);
+  const crown = samples.filter((sample) => sample.p.y > maxY - 0.26 && sample.n.y > 0.5);
+  const fade = samples.filter((sample) => sample.p.y > maxY - 0.48 && sample.p.y < maxY - 0.1 && Math.abs(sample.n.x) > 0.55 && sample.n.z < 0.2);
+  const pool = crown.length ? crown : samples;
+  const fadePool = fade.length ? fade : pool;
+  const messyCount = mobile ? 72 : 130;
+  const topCount = mobile ? 40 : 70;
+  const fadeCount = mobile ? 36 : 64;
 
   for (let i = 0; i < messyCount; i += 1) {
-    const clump = clumps[i % clumps.length];
-    const phi = clump.phi + (rng() - 0.5) * 0.14;
-    const theta = clump.theta + (rng() - 0.5) * 0.16;
-    const origin = onHead(phi, theta, 0.015);
-    const radial = origin.clone().sub(HEAD).normalize();
-    const dir = radial.clone();
-    dir.y = dir.y * 0.2 - 0.15;
-    dir.x += (rng() - 0.5) * 0.35;
-    dir.z += (rng() - 0.5) * 0.25;
-    if (clump.flop > 0.58) dir.z += 0.85;
-    const facing = radial.clone().add(new THREE.Vector3(0, 0.15, 0.85)).normalize();
-    geos.push(cardAt(
-      origin,
-      dir,
-      clump.len * (0.85 + rng() * 0.3),
-      clump.width,
-      clump.bend,
-      rng(),
-      0,
-      facing,
-      (rng() - 0.5) * 0.4,
-    ));
+    const sample = pickSample(pool, rng);
+    const origin = sample.p.clone().addScaledVector(sample.n, 0.015);
+    const dir = sample.n.clone();
+    dir.y = sample.n.y * 0.25 + 0.2 + rng() * 0.25;
+    dir.x += (rng() - 0.5) * 0.9;
+    dir.z += (rng() - 0.5) * 0.55;
+    const facing = new THREE.Vector3(0, 0.35, 1).add(sample.n).normalize();
+    geos.push(cardAt(origin, dir, 0.1 + rng() * 0.14, 0.12, 0.04, rng(), 0, facing, (rng() - 0.5) * 0.3));
   }
 
   for (let i = 0; i < topCount; i += 1) {
-    const phi = 0.12 + rng() * 0.78;
-    const theta = Math.PI * 0.2 + rng() * Math.PI * 0.6;
-    const origin = onHead(phi, theta, 0.02);
-    const radial = origin.clone().sub(HEAD).normalize();
-    const dir = radial.clone();
-    dir.z -= 1.05;
-    dir.x += 0.4;
-    dir.y += 0.12;
-    const facing = radial.clone().add(new THREE.Vector3(0, 0.2, 0.5)).normalize();
-    geos.push(cardAt(origin, dir, 0.12 + rng() * 0.1, 0.022, 0.05, rng(), 1, facing, (rng() - 0.5) * 0.2));
+    const sample = pickSample(pool, rng);
+    const origin = sample.p.clone().addScaledVector(sample.n, 0.012);
+    const dir = sample.n.clone();
+    dir.z -= 0.75;
+    dir.x += 0.2;
+    dir.y += 0.08;
+    const facing = new THREE.Vector3(0, 0.25, 1).add(sample.n).normalize();
+    geos.push(cardAt(origin, dir, 0.07 + rng() * 0.08, 0.07, 0.03, rng(), 1, facing, (rng() - 0.5) * 0.2));
   }
 
   for (let i = 0; i < fadeCount; i += 1) {
-    const side = i % 2 === 0 ? 1 : -1;
-    const origin = new THREE.Vector3(
-      side * (0.44 + rng() * 0.08),
-      -0.28 + rng() * 1.12,
-      -0.4 + rng() * 0.82,
-    );
-    const radial = origin.clone().sub(HEAD).normalize();
-    const dir = radial.clone();
-    dir.y = -0.45;
-    geos.push(cardAt(origin, dir, 0.03 + rng() * 0.028, 0.016, 0.004, rng(), 1, radial, rng() * 0.4));
+    const sample = pickSample(fadePool, rng);
+    const origin = sample.p.clone().addScaledVector(sample.n, 0.008);
+    const dir = sample.n.clone();
+    dir.y -= 0.35;
+    geos.push(cardAt(origin, dir, 0.025 + rng() * 0.03, 0.03, 0.008, rng(), 1, sample.n, rng()));
   }
 
   const merged = mergeGeometries(geos);
@@ -284,12 +264,14 @@ function buildHair(mobile) {
   return merged;
 }
 
-function hairMaterial() {
+function hairMaterial(alphaMap) {
   const material = new THREE.MeshStandardMaterial({
     color: 0xffffff,
-    roughness: 0.74,
-    metalness: 0.03,
+    roughness: 0.62,
+    metalness: 0.02,
     side: THREE.DoubleSide,
+    alphaMap,
+    alphaTest: 0.22,
   });
   const uniforms = { uCut: { value: 0 } };
   material.onBeforeCompile = (shader) => {
@@ -348,7 +330,7 @@ function hairMaterial() {
 }
 
 function strandGeometry() {
-  const geo = new THREE.PlaneGeometry(0.008, 0.17, 1, 4);
+  const geo = new THREE.PlaneGeometry(0.028, 0.2, 1, 4);
   geo.translate(0, -0.085, 0);
   const pos = geo.attributes.position;
   for (let i = 0; i < pos.count; i += 1) {
@@ -360,24 +342,20 @@ function strandGeometry() {
   return geo;
 }
 
-function buildStrands(mobile) {
-  const count = mobile ? 180 : 380;
+function buildStrands(mobile, samples, alphaMap) {
+  const count = mobile ? 160 : 320;
   const rng = mulberry32(481516);
   const geo = strandGeometry();
   const seeds = new Float32Array(count);
   const spawns = new Float32Array(count);
   const base = new Float32Array(count * 3);
   const yaw = new Float32Array(count);
+  const maxY = samples.reduce((max, sample) => Math.max(max, sample.p.y), -Infinity);
+  const pool = samples.filter((sample) => sample.p.y > maxY - 0.34 && sample.n.y > 0.35);
 
   for (let i = 0; i < count; i += 1) {
-    const phi = 0.2 + rng() * 1.35;
-    const theta = rng() * Math.PI * 2;
-    const p = onHead(phi, theta, 0.04);
-    if (rng() > 0.55) {
-      p.y = -0.2 + rng() * 1.15;
-      p.x = (rng() > 0.5 ? 1 : -1) * (0.4 + rng() * 0.12);
-      p.z = -0.25 + rng() * 0.7;
-    }
+    const sample = pool.length ? pickSample(pool, rng) : { p: onHead(rng(), rng() * Math.PI * 2, 0.02), n: new THREE.Vector3(0, 1, 0) };
+    const p = sample.p.clone().addScaledVector(sample.n, 0.02);
     base[i * 3] = p.x;
     base[i * 3 + 1] = p.y;
     base[i * 3 + 2] = p.z;
@@ -391,10 +369,12 @@ function buildStrands(mobile) {
   geo.setAttribute('aSpawn', new THREE.InstancedBufferAttribute(spawns, 1));
 
   const material = new THREE.MeshStandardMaterial({
-    color: 0x2a211b,
-    roughness: 0.68,
+    color: 0x241c16,
+    roughness: 0.6,
     metalness: 0.02,
     side: THREE.DoubleSide,
+    alphaMap,
+    alphaTest: 0.4,
   });
   const uniforms = { uCut: { value: 0 } };
   material.onBeforeCompile = (shader) => {
@@ -410,16 +390,16 @@ function buildStrands(mobile) {
       '#include <begin_vertex>',
       `#include <begin_vertex>
        float life = clamp((uCut - aSpawn) * 3.7, 0.0, 1.0);
-       vFade = smoothstep(0.0, 0.045, life) * (1.0 - smoothstep(0.72, 0.96, life));
-       float spin = life * (aSeed - 0.5) * 2.6;
+       vFade = smoothstep(0.0, 0.045, life) * (1.0 - smoothstep(0.38, 0.7, life));
+       float spin = life * (aSeed - 0.5) * 2.2;
        float cs = cos(spin);
        float sn = sin(spin);
-       transformed.x += sin(aSeed * 6.28318) * life * life * 0.34;
-       transformed.z += cos(aSeed * 4.1) * life * life * 0.24;
+       transformed.x += sin(aSeed * 6.28318) * life * life * 0.16;
+       transformed.z += cos(aSeed * 4.1) * life * life * 0.12;
        vec2 xz = transformed.xz;
        transformed.x = cs * xz.x - sn * xz.y;
        transformed.z = sn * xz.x + cs * xz.y;
-       transformed.y -= life * life * 1.65;
+       transformed.y -= life * life * 0.7;
        if (vFade < 0.02) transformed.y -= 30.0;`,
     );
     shader.fragmentShader = shader.fragmentShader.replace(
@@ -583,7 +563,99 @@ function fitCamera(camera, cam, look, aspect) {
   camera.lookAt(target);
 }
 
-export function createHeroScene(canvas, { capture = false, mobile = false } = {}) {
+function hairFiberTexture() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 256;
+  canvas.height = 512;
+  const ctx = canvas.getContext('2d');
+  const rng = mulberry32(11);
+  ctx.fillStyle = '#000';
+  ctx.fillRect(0, 0, 256, 512);
+  ctx.lineCap = 'round';
+  for (let i = 0; i < 28; i += 1) {
+    const x = 8 + rng() * 240;
+    const wobble = (rng() - 0.5) * 28;
+    ctx.strokeStyle = `rgba(255,255,255,${0.55 + rng() * 0.45})`;
+    ctx.lineWidth = 2.2 + rng() * 3.4;
+    ctx.beginPath();
+    ctx.moveTo(x, 0);
+    ctx.bezierCurveTo(x + wobble, 160, x - wobble * 0.4, 340, x + wobble * 0.2, 512);
+    ctx.stroke();
+  }
+  const texture = new THREE.CanvasTexture(canvas);
+  texture.colorSpace = THREE.NoColorSpace;
+  texture.generateMipmaps = false;
+  texture.minFilter = THREE.LinearFilter;
+  texture.magFilter = THREE.LinearFilter;
+  texture.needsUpdate = true;
+  return texture;
+}
+
+function loadTexture(url, colorSpace) {
+  const loader = new THREE.TextureLoader();
+  return new Promise((resolve, reject) => {
+    loader.load(url, (texture) => {
+      texture.colorSpace = colorSpace;
+      texture.anisotropy = 8;
+      resolve(texture);
+    }, undefined, reject);
+  });
+}
+
+function scalpSamples(geometry) {
+  const position = geometry.attributes.position;
+  const normal = geometry.attributes.normal;
+  const samples = [];
+  const point = new THREE.Vector3();
+  const direction = new THREE.Vector3();
+  for (let i = 0; i < position.count; i += 2) {
+    point.fromBufferAttribute(position, i);
+    direction.fromBufferAttribute(normal, i).normalize();
+    if (direction.y > -0.15 && point.y > -0.45) {
+      samples.push({ p: point.clone(), n: direction.clone() });
+    }
+  }
+  return samples;
+}
+
+async function loadScanHead() {
+  const [colorMap, normalMap, roughnessMap, gltf] = await Promise.all([
+    loadTexture('/models/Map-COL.jpg', THREE.SRGBColorSpace),
+    loadTexture('/models/normal.jpg', THREE.NoColorSpace),
+    loadTexture('/models/roughness.jpg', THREE.NoColorSpace),
+    new GLTFLoader().loadAsync('/models/lee-perry-smith.glb'),
+  ]);
+  let source = null;
+  gltf.scene.traverse((object) => {
+    if (object.isMesh) source = object;
+  });
+  const geometry = source.geometry.clone();
+  geometry.computeBoundingBox();
+  const box = geometry.boundingBox;
+  const size = new THREE.Vector3();
+  const center = new THREE.Vector3();
+  box.getSize(size);
+  box.getCenter(center);
+  const scale = 1.72 / size.y;
+  geometry.translate(-center.x, -center.y, -center.z);
+  geometry.scale(scale, scale, scale);
+
+  const material = new THREE.MeshStandardMaterial({
+    color: 0xffffff,
+    map: colorMap,
+    normalMap,
+    roughnessMap,
+    roughness: 0.78,
+    metalness: 0,
+    normalScale: new THREE.Vector2(1, 1),
+    envMapIntensity: 0.28,
+  });
+  const mesh = new THREE.Mesh(geometry, material);
+  geometry.computeBoundingBox();
+  return { mesh, samples: scalpSamples(geometry), minY: geometry.boundingBox.min.y };
+}
+
+export async function createHeroScene(canvas, { capture = false, mobile = false } = {}) {
   const renderer = new THREE.WebGLRenderer({
     canvas,
     antialias: true,
@@ -603,18 +675,18 @@ export function createHeroScene(canvas, { capture = false, mobile = false } = {}
   const pmrem = new THREE.PMREMGenerator(renderer);
   const env = new RoomEnvironment();
   scene.environment = pmrem.fromScene(env, 0.04).texture;
-  scene.environmentIntensity = 0.72;
+  scene.environmentIntensity = 0.4;
   env.traverse((obj) => {
     if (obj.geometry) obj.geometry.dispose();
     if (obj.material) obj.material.dispose?.();
   });
   pmrem.dispose();
 
-  scene.add(new THREE.HemisphereLight(0xf4efe6, 0x2a241e, 0.18));
-  const key = new THREE.DirectionalLight(0xfff3e4, 2.5);
-  key.position.set(1.4, 1.5, 2.4);
+  scene.add(new THREE.HemisphereLight(0xf7f1e8, 0x3a3028, 0.55));
+  const key = new THREE.DirectionalLight(0xfff4e8, 2.1);
+  key.position.set(1.2, 1.8, 2.8);
   scene.add(key);
-  const fill = new THREE.DirectionalLight(0xc5d0dc, 0.28);
+  const fill = new THREE.DirectionalLight(0xd5dde8, 0.55);
   fill.position.set(-2.4, 0.8, 1.4);
   scene.add(fill);
   const rim = new THREE.DirectionalLight(0xf0d7a4, 0.4);
@@ -623,25 +695,21 @@ export function createHeroScene(canvas, { capture = false, mobile = false } = {}
   const glint = new THREE.PointLight(0xfff8ee, 0, 3.2, 1.6);
   scene.add(glint);
 
-  const plaster = new THREE.MeshStandardMaterial({
-    color: 0xcbbba6,
-    roughness: 0.94,
-    metalness: 0.02,
-    vertexColors: true,
-  });
+  const scan = await loadScanHead();
+  const fibers = hairFiberTexture();
   const bust = new THREE.Group();
-  bust.add(new THREE.Mesh(buildPlaster(), plaster));
+  bust.add(scan.mesh);
   const plinth = new THREE.Mesh(
-    new THREE.CylinderGeometry(0.78, 0.84, 0.14, 40),
+    new THREE.CylinderGeometry(0.42, 0.5, 0.12, 40),
     new THREE.MeshStandardMaterial({ color: 0x17181b, roughness: 0.58, metalness: 0.22 }),
   );
-  plinth.position.y = -1.48;
+  plinth.position.y = scan.minY - 0.04;
   bust.add(plinth);
-  const hair = new THREE.Mesh(buildHair(mobile), hairMaterial());
+  const hair = new THREE.Mesh(buildHair(mobile, scan.samples), hairMaterial(fibers));
   bust.add(hair);
   scene.add(bust);
 
-  const strands = buildStrands(mobile);
+  const strands = buildStrands(mobile, scan.samples, fibers);
   scene.add(strands.mesh);
 
   const metal = new THREE.MeshStandardMaterial({
@@ -665,7 +733,7 @@ export function createHeroScene(canvas, { capture = false, mobile = false } = {}
     new THREE.MeshBasicMaterial({ map: shadowTexture(), transparent: true, depthWrite: false }),
   );
   shadow.rotation.x = -Math.PI / 2;
-  shadow.position.y = -1.56;
+  shadow.position.y = scan.minY - 0.1;
   scene.add(shadow);
 
   const scissorPath = new THREE.CatmullRomCurve3([

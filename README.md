@@ -2,7 +2,7 @@
 
 Przykładowa strona salonu fryzjerskiego męskiego. Marka, zespół, opinie, telefon, adres i ceny są wymyślone. Treść strony jest po polsku.
 
-The hero is a scroll-driven 3D scene: scissors and a straight razor come down onto a matte plaster bust with a messy cut, hair falls, the head turns, and a dissolve leaves a short crop. Scrolling back up reverses the whole thing. The bust, both haircuts, the scissors and the razor are built in Three.js. There are no downloaded models.
+The hero is a scroll-driven 3D scene: scissors and a straight razor come down onto a scanned head with a messy cut, hair falls, the head turns, and a dissolve leaves a short crop. Scrolling back up reverses the whole thing. The head scan is a licensed model. The hair cards, falling strands, scissors and razor are built in Three.js.
 
 ## Stack
 
@@ -35,7 +35,8 @@ Query flags, for checks: `?mode=webgl`, `?mode=sequence`, `?mode=stills`, `?snap
 
 ## Credits
 
-- Geometry: procedural, written in this repo.
+- Head scan: “Infinite, 3D Head Scan” by Lee Perry-Smith, [CC BY 3.0](https://creativecommons.org/licenses/by/3.0/). Files in `public/models/` and `public/credits/lee-perry-smith-license.txt`, via the three.js examples. Color, normal and specular maps are part of that scan.
+- Hair cards, falling strands, scissors and razor: procedural, written in this repo.
 - [three.js](https://github.com/mrdoob/three.js) (MIT), including `RoomEnvironment` for the metal reflections.
 - [GSAP](https://gsap.com/) and ScrollTrigger.
 - [Lenis](https://github.com/darkroomengineering/lenis) (MIT).

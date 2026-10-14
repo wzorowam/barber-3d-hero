@@ -247,7 +247,7 @@ async function boot() {
       const { createHeroScene } = await import('./hero/scene.js');
       const canvas = document.querySelector('#hero-webgl');
       const mobile = window.matchMedia('(max-width: 760px)').matches;
-      sceneApi = createHeroScene(canvas, { capture: captureMode(), mobile });
+      sceneApi = await createHeroScene(canvas, { capture: captureMode(), mobile });
       document.querySelector('#hero-seq').hidden = true;
       const calls = sceneApi.getDrawCalls();
       if (calls > 25) console.warn(`Za dużo wywołań rysowania: ${calls}`);

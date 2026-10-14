@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="pl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Atelier Brzytwa — salon fryzjerski męski w Warszawie</title>
+    <meta
+      name="description"
+      content="Przykładowa strona salonu Atelier Brzytwa przy ul. Chmielnej w Warszawie. Strzyżenie, fade, broda i golenie brzytwą. Marka, telefon i adres są zastępcze."
+    />
+    <meta name="theme-color" content="#14161A" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="preload" as="image" href="/fallback/poster.jpg" />
+  </head>
+  <body>
+    <a class="skip" href="#tresc">Przejdź do treści</a>
+    <p class="sample-bar">Przykład, nie prawdziwy salon. Telefon, adres i ceny są wymyślone.</p>
+
+    <header class="nav">
+      <a class="logo" href="#gora">Atelier Brzytwa</a>
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="menu">
+        <span class="nav-toggle-lines" aria-hidden="true"></span>
+        <span class="sr-only">Menu</span>
+      </button>
+      <nav id="menu" class="nav-panel">
+        <a class="nav-link" href="#uslugi">Usługi</a>
+        <a class="nav-link" href="#zespol">Zespół</a>
+        <a class="nav-link" href="#galeria">Galeria</a>
+        <a class="nav-link" href="#opinie">Opinie</a>
+        <a class="nav-link" href="#lokalizacja">Kontakt</a>
+      </nav>
+      <a class="nav-book btn" href="#rezerwacja">Zarezerwuj fotel</a>
+    </header>
+
+    <main id="tresc">
+      <section id="gora" class="hero" aria-label="Wejście">
+        <canvas id="hero-webgl" class="hero-canvas" aria-hidden="true"></canvas>
+        <canvas id="hero-seq" class="hero-canvas" hidden aria-hidden="true"></canvas>
+        <img
+          class="hero-poster"
+          src="/fallback/poster.jpg"
+          alt=""
+          width="1280"
+          height="720"
+        />
+        <div class="hero-shade" aria-hidden="true"></div>
+        <div class="hero-copy">
+          <p class="eyebrow">Salon męski · Warszawa</p>
+          <h1>
+            <span data-line="arrive">Wejdź taki, jaki jesteś.</span>
+            <span data-line="precision" aria-hidden="true">Precyzja, nie poza.</span>
+            <span data-line="sharp" aria-hidden="true">Wyjdź ostry.</span>
+          </h1>
+          <a class="btn btn-light" data-line="cta" href="#rezerwacja" tabindex="-1">Zarezerwuj fotel</a>
+        </div>
+        <p class="hero-hint" data-line="hint">Przewiń</p>
+        <div class="hero-progress" aria-hidden="true"><span></span></div>
+        <div class="hero-stills" hidden>
+          <figure>
+            <img src="/fallback/before.jpg" alt="Stylizowana głowa z niedbałym, nierównym strzyżeniem" width="960" height="540" />
+            <figcaption>Przed</figcaption>
+          </figure>
+          <figure>
+            <img src="/fallback/after.jpg" alt="Ta sama głowa po czystym, ostrym cięciu" width="960" height="540" />
+            <figcaption>Po</figcaption>
+          </figure>
+        </div>
+        <p class="sr-only">
+          Animacja przewijania: nożyczki i brzytwa schodzą do głowy z bałaganem na włosach.
+          Włosy opadają, głowa obraca się, zostaje ostre cięcie.
+        </p>
+      </section>
+
+      <section id="o-nas" class="band">
+        <div class="wrap split reveal">
+          <div>
+            <p class="kicker">01 — Od 2019</p>
+            <h2>Fotel, okno i ostra brzytwa.</h2>
+            <p>
+              Atelier Brzytwa mieści się w kamienicy przy Chmielnej. Nie budujemy klubu
+              i nie sprzedajemy stylu życia. Strzyżemy. Siadasz, mówisz, jak chcesz
+              wyjść — krócej nad uchem, spokojniej na czubku, broda albo gładko — i
+              zostawiasz resztę nam.
+            </p>
+            <p>
+              Zaczęło się od jednego fotela i brzytwy, która naprawdę bierze włos, a nie
+              tylko błyszczy na zdjęciu. Dziś przy fotelach jest nas trzech. Cennik wisi
+              przy lustrze, kawa jest mocna, a wizyta trwa tyle, ile trzeba, nie tyle,
+              ile zostało do następnego klienta.
+            </p>
+          </div>
+          <figure class="frame">
+            <img
+              src="/images/about-salon.jpg"
+              alt="Pusty fotel fryzjerski przy oknie, popołudniowe światło, drewniana podłoga"
+              width="1280"
+              height="720"
+            />
+          </figure>
+        </div>
+      </section>
+
+      <section id="uslugi" class="band band-tight">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <p class="kicker">02 — Cennik</p>
+            <h2>Usługi i ceny</h2>
+            <p class="lede">
+              Bez gwiazdek i bez „zapytaj o wycenę”. Czas podajemy po to, żebyś zdążył
+              na pociąg. Ceny, jak cała ta strona, są przykładowe.
+            </p>
+          </div>
+          <div class="menu">
+            <h3>Strzyżenie</h3>
+            <div class="menu-row"><div class="menu-name"><span>Strzyżenie</span></div><span class="menu-time">45 min</span><span class="menu-price">90 zł</span></div>
+            <div class="menu-row"><div class="menu-name"><span>Strzyżenie maszynką</span></div><span class="menu-time">30 min</span><span class="menu-price">60 zł</span></div>
+            <div class="menu-row"><div class="menu-name"><span>Fade</span></div><span class="menu-time">50 min</span><span class="menu-price">110 zł</span></div>
+            <div class="menu-row"><div class="menu-name"><span>Strzyżenie i stylizacja</span></div><span class="menu-time">60 min</span><span class="menu-price">130 zł</span></div>
+            <h3>Broda i golenie</h3>
+            <div class="menu-row"><div class="menu-name"><span>Broda — przycięcie i kontur</span></div><span class="menu-time">30 min</span><span class="menu-price">70 zł</span></div>
+            <div class="menu-row"><div class="menu-name"><span>Broda i gorący ręcznik</span></div><span class="menu-time">40 min</span><span class="menu-price">90 zł</span></div>
+            <div class="menu-row"><div class="menu-name"><span>Golenie brzytwą</span></div><span class="menu-time">35 min</span><span class="menu-price">80 zł</span></div>
+            <h3>Pakiety</h3>
+            <div class="menu-row"><div class="menu-name"><span>Strzyżenie i broda</span></div><span class="menu-time">75 min</span><span class="menu-price">150 zł</span></div>
+            <div class="menu-row"><div class="menu-name"><span>Strzyżenie i golenie brzytwą</span></div><span class="menu-time">80 min</span><span class="menu-price">160 zł</span></div>
+            <div class="menu-row"><div class="menu-name"><span>Pakiet pełny</span></div><span class="menu-time">100 min</span><span class="menu-price">210 zł</span></div>
+          </div>
+        </div>
+      </section>
+
+      <section id="zespol" class="band band-warm">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <p class="kicker">03 — Ludzie</p>
+            <h2>Kto stoi przy fotelu</h2>
+            <p class="lede">Umówisz się do konkretnej osoby albo do pierwszego wolnego. Zespół jest wymyślony, tak jak salon.</p>
+          </div>
+          <div class="cards">
+            <article class="card">
+              <img src="/images/barber-marek.jpg" alt="Portret Marka, krótkie ciemne włosy, lniana koszula, światło z okna" width="800" height="1067" />
+              <div class="card-body">
+                <h3>Marek Lewandowski</h3>
+                <p class="specialty">Fade i klasyczne strzyżenie</p>
+                <p>Prowadzi salon. Dwanaście lat przy fotelu, równa linia i zero pośpiechu w ostatniej minucie. Jeśli nie wiesz, czego chcesz, zacznij od niego.</p>
+              </div>
+            </article>
+            <article class="card">
+              <img src="/images/barber-tomasz.jpg" alt="Portret Tomasza z krótką brodą, czarna koszula, ciepłe światło" width="800" height="1067" />
+              <div class="card-body">
+                <h3>Tomasz Wójcik</h3>
+                <p class="specialty">Brzytwa i broda</p>
+                <p>Zaczyna od gorącego ręcznika, kończy, kiedy kontur jest czysty. Jeśli nie lubisz gadania przy fotelu, siądź do niego.</p>
+              </div>
+            </article>
+            <article class="card">
+              <img src="/images/barber-adam.jpg" alt="Portret Adama z dłuższymi, pofalowanymi włosami, jasny sweter" width="800" height="1067" />
+              <div class="card-body">
+                <h3>Adam Król</h3>
+                <p class="specialty">Tekstura i dłuższe włosy</p>
+                <p>Grzywka, która ma wyglądać naturalnie, a nie jak z katalogu. Dobrze słucha, zanim weźmie nożyczki.</p>
+              </div>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="galeria" class="band band-ink">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <p class="kicker">04 — Z salonu</p>
+            <h2>Światło, narzędzia, fotel.</h2>
+          </div>
+          <div class="gallery">
+            <figure>
+              <img src="/images/gallery-scissors.jpg" alt="Dłonie trzymające otwarte nożyczki fryzjerskie nad drewnianym blatem" width="800" height="1067" />
+              <figcaption>Nożyczki, zanim zejdą do włosa</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/gallery-razor.jpg" alt="Otwarta brzytwa na złożonym jasnym ręczniku" width="800" height="1067" />
+              <figcaption>Brzytwa i gorący ręcznik</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/gallery-fade.jpg" alt="Tył głowy mężczyzny ze świeżym fade, światło z okna" width="800" height="1067" />
+              <figcaption>Fade, świeżo po cięciu</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/gallery-chair.jpg" alt="Pusty fotel fryzjerski przy wysokim oknie, drewniana podłoga" width="800" height="1067" />
+              <figcaption>Fotel przy oknie</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/gallery-beard.jpg" alt="Zbliżenie konturu brody prowadzonego brzytwą" width="800" height="1067" />
+              <figcaption>Kontur brody</figcaption>
+            </figure>
+            <figure>
+              <img src="/images/gallery-light.jpg" alt="Szklane butelki i grzebień na drewnianej półce, światło na tynku" width="800" height="1067" />
+              <figcaption>Światło po południu</figcaption>
+            </figure>
+          </div>
+        </div>
+      </section>
+
+      <section id="opinie" class="band">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <p class="kicker">05 — Po wizycie</p>
+            <h2>Krótko, po fakcie.</h2>
+            <p class="lede">Opinie są przykładowe. Nikt ich nie wystawiał.</p>
+          </div>
+          <div class="quotes">
+            <blockquote>
+              <p>„Wyszedłem po czterdziestu minutach i pierwszy raz od dawna nie musiałem niczego poprawiać w domu.”</p>
+              <footer>Kamil, Śródmieście</footer>
+            </blockquote>
+            <blockquote>
+              <p>„Broda ogarnięta równo, bez cięcia na oko. Wracam za trzy tygodnie.”</p>
+              <footer>Piotr, Wola</footer>
+            </blockquote>
+            <blockquote>
+              <p>„Fade bez wykładu o tym, jaki jestem typ. Usiadłem, wyszedłem ostry.”</p>
+              <footer>Michał, Praga-Północ</footer>
+            </blockquote>
+            <blockquote>
+              <p>„Córka kupiła mi bon. Myślałem, że będzie sztywno. Było spokojnie i konkretnie.”</p>
+              <footer>Andrzej, Mokotów</footer>
+            </blockquote>
+          </div>
+        </div>
+      </section>
+
+      <section id="bony" class="band band-tight">
+        <div class="wrap reveal">
+          <div class="section-head">
+            <p class="kicker">06 — Prezent</p>
+            <h2>Bon na fotel</h2>
+            <p class="lede">
+              Na urodziny, na nową pracę, na „dawno nie byłeś u fryzjera”. Ważny
+              dwanaście miesięcy. Tutaj bonu nie da się kupić — przycisk tylko uzupełnia
+              przykładowy formularz.
+            </p>
+          </div>
+          <div class="vouchers">
+            <article>
+              <p class="voucher-value">150 zł</p>
+              <p>Strzyżenie albo broda. Jeden spokojny fotel.</p>
+              <button type="button" class="btn btn-dark" data-voucher="Bon podarunkowy, 150 zł">Chcę taki bon</button>
+            </article>
+            <article>
+              <p class="voucher-value">250 zł</p>
+              <p>Pakiet: strzyżenie i broda albo golenie.</p>
+              <button type="button" class="btn btn-dark" data-voucher="Bon podarunkowy, 250 zł">Chcę taki bon</button>
+            </article>
+            <article>
+              <p class="voucher-value">400 zł</p>
+              <p>Kilka wizyt. Bez pośpiechu i bez daty ważności w tym miesiącu.</p>
+              <button type="button" class="btn btn-dark" data-voucher="Bon podarunkowy, 400 zł">Chcę taki bon</button>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="rezerwacja" class="band band-ink">
+        <div class="wrap booking-grid reveal">
+          <div>
+            <p class="kicker">07 — Fotel</p>
+            <h2>Zarezerwuj fotel</h2>
+            <p class="lede">
+              Wybierz usługę i dzień. W prawdziwym salonie oddzwonilibyśmy, żeby
+              potwierdzić godzinę. Tutaj formularz zostaje w przeglądarce.
+            </p>
+            <p class="fine">Nic nie wysyłamy. Po zatwierdzeniu zobaczysz tylko potwierdzenie na tej stronie.</p>
+          </div>
+          <div>
+            <form id="rezerwacja-form" novalidate>
+              <ul id="formularz-bledy" class="errors" hidden tabindex="-1" role="alert"></ul>
+              <div class="fields">
+                <label>Imię i nazwisko
+                  <input name="name" autocomplete="name" required />
+                </label>
+                <label>Telefon
+                  <input name="phone" type="tel" autocomplete="tel" inputmode="tel" required />
+                </label>
+                <label>E-mail
+                  <input name="email" type="email" autocomplete="email" required />
+                </label>
+                <label>Usługa
+                  <select name="service" required>
+                    <option value="">Wybierz</option>
+                    <option>Strzyżenie</option>
+                    <option>Strzyżenie maszynką</option>
+                    <option>Fade</option>
+                    <option>Strzyżenie i stylizacja</option>
+                    <option>Broda — przycięcie i kontur</option>
+                    <option>Broda i gorący ręcznik</option>
+                    <option>Golenie brzytwą</option>
+                    <option>Strzyżenie i broda</option>
+                    <option>Strzyżenie i golenie brzytwą</option>
+                    <option>Pakiet pełny</option>
+                    <option>Bon podarunkowy, 150 zł</option>
+                    <option>Bon podarunkowy, 250 zł</option>
+                    <option>Bon podarunkowy, 400 zł</option>
+                  </select>
+                </label>
+                <label>Barber
+                  <select name="barber">
+                    <option value="dowolny">Pierwszy wolny</option>
+                    <option>Marek Lewandowski</option>
+                    <option>Tomasz Wójcik</option>
+                    <option>Adam Król</option>
+                  </select>
+                </label>
+                <label>Dzień
+                  <input name="date" type="date" required />
+                </label>
+                <label>Godzina
+                  <select name="time" required>
+                    <option value="">Najpierw wybierz dzień</option>
+                  </select>
+                </label>
+                <label class="span-2">Uwagi
+                  <textarea name="notes" rows="3" placeholder="Na przykład: krócej nad uchem, broda bez zmian."></textarea>
+                </label>
+              </div>
+              <button class="btn btn-light" type="submit">Zarezerwuj fotel</button>
+              <p class="fine">Godzina jest orientacyjna. Dłuższy pakiet zaczynamy tak, żeby skończyć przed zamknięciem.</p>
+            </form>
+            <div id="potwierdzenie" class="confirm" hidden>
+              <p class="kicker">Rezerwacja przykładowa</p>
+              <h3 tabindex="-1">Fotel zapisany na próbę.</h3>
+              <p></p>
+              <button id="confirm-reset" class="btn btn-light" type="button">Nowa rezerwacja</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="lokalizacja" class="band">
+        <div class="wrap split reveal">
+          <div>
+            <p class="kicker">08 — Gdzie</p>
+            <h2>Chmielna 28.</h2>
+            <p>
+              Drugie piętro, dzwonek „Brzytwa”. Dziesięć minut piechotą ze stacji Centrum.
+              Adres jest przykładowy — nie dzwoń i nie przyjeżdżaj.
+            </p>
+            <dl class="facts">
+              <div>
+                <dt>Adres</dt>
+                <dd>ul. Chmielna 28/4<br />00-020 Warszawa</dd>
+              </div>
+              <div>
+                <dt>Telefon</dt>
+                <dd><a href="tel:+48221004820">+48 22 100 48 20</a></dd>
+              </div>
+              <div>
+                <dt>E-mail</dt>
+                <dd><a href="mailto:kontakt@atelierbrzytwa.example">kontakt@atelierbrzytwa.example</a></dd>
+              </div>
+              <div>
+                <dt>Godziny</dt>
+                <dd>
+                  pon.–pt. 10:00–20:00<br />
+                  sob. 9:00–17:00<br />
+                  niedz. nieczynne
+                </dd>
+              </div>
+            </dl>
+          </div>
+          <figure class="map">
+            <img src="/images/map.jpg" alt="Mapa okolic ulicy Chmielnej 28 w Warszawie" width="960" height="640" />
+            <span class="pin" aria-hidden="true"></span>
+            <figcaption>
+              Mapa: © współtwórcy OpenStreetMap.
+              <a href="https://www.openstreetmap.org/?mlat=52.23218&mlon=21.01317#map=17/52.23218/21.01317">Otwórz większą mapę</a>
+            </figcaption>
+          </figure>
+        </div>
+      </section>
+
+      <section id="pytania" class="band band-tight">
+        <div class="wrap narrow reveal">
+          <p class="kicker">09 — Zanim przyjdziesz</p>
+          <h2>Pytania</h2>
+          <div class="faq">
+            <details>
+              <summary>Czy trzeba się umawiać?</summary>
+              <p>Tak. Wchodzimy punktualnie, bo fotel jest jeden na osobę, nie na poczekalnię. Jeśli spóźnisz się więcej niż dziesięć minut, skrócimy usługę albo przełożymy ją na inny dzień.</p>
+            </details>
+            <details>
+              <summary>Ile trwa wizyta?</summary>
+              <p>Strzyżenie około 45 minut, sam fade bliżej godziny, broda pół godziny, golenie brzytwą około 35 minut. Pakiet pełny to mniej więcej półtorej godziny. Przy rezerwacji blokujemy ten czas.</p>
+            </details>
+            <details>
+              <summary>Czy strzyżecie dzieci?</summary>
+              <p>Od dwunastego roku życia, jeśli dziecko spokojnie wysiedzi strzyżenie. Młodszych nie sadzamy — to nie jest salon rodzinny i nie mamy na to fotela.</p>
+            </details>
+            <details>
+              <summary>Jak odwołać wizytę?</summary>
+              <p>Dzień wcześniej wystarczy telefon albo krótka wiadomość. Tego samego dnia prosimy o telefon, nie o milczenie.</p>
+            </details>
+            <details>
+              <summary>Czy mogę przyjść ze zdjęciem?</summary>
+              <p>Tak. Powiedz też, czego na pewno nie chcesz. Zdjęcie jest początkiem rozmowy, nie umową.</p>
+            </details>
+            <details>
+              <summary>Czy sprzedajecie kosmetyki?</summary>
+              <p>Mamy pastę do włosów i olejek do brody — te, których sami używamy. Nie ma ściany z półkami.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="site-footer">
+      <div class="wrap footer-grid">
+        <div>
+          <p class="logo logo-footer">Atelier Brzytwa</p>
+          <p>Salon męski. Przykładowa marka.</p>
+          <ul class="social">
+            <li><a href="#prywatnosc">Instagram <span>(przykład)</span></a></li>
+            <li><a href="#prywatnosc">Facebook <span>(przykład)</span></a></li>
+          </ul>
+        </div>
+        <div>
+          <p class="kicker">Godziny</p>
+          <p>pon.–pt. 10:00–20:00<br />sob. 9:00–17:00<br />niedz. nieczynne</p>
+        </div>
+        <div>
+          <p class="kicker">Kontakt</p>
+          <p>
+            ul. Chmielna 28/4<br />
+            00-020 Warszawa<br />
+            <a href="tel:+48221004820">+48 22 100 48 20</a><br />
+            <a href="mailto:kontakt@atelierbrzytwa.example">kontakt@atelierbrzytwa.example</a>
+          </p>
+        </div>
+        <div id="prywatnosc">
+          <p class="kicker">Prywatność</p>
+          <p>
+            Formularz rezerwacji niczego nie wysyła i niczego nie zapisuje. Nie ma tu
+            plików cookie, analityki ani zapisu na newsletter. To pokaz strony.
+            W działającym salonie numer i e-mail służyłyby tylko do potwierdzenia fotela.
+          </p>
+        </div>
+      </div>
+      <div class="wrap footer-note">
+        <p>Strona przykładowa. Marka, zespół, opinie, ceny, telefon i adres są wymyślone na potrzeby projektu.</p>
+      </div>
+    </footer>
+
+    <a class="book-bar" href="#rezerwacja">Zarezerwuj fotel</a>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

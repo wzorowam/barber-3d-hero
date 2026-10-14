@@ -521,6 +521,7 @@ input:focus, select:focus, textarea:focus { outline: 2px solid var(--brass); out
   .book-bar { display: block; }
   body { padding-bottom: 3.4rem; }
   .cards, .gallery, .vouchers, .hero-stills { grid-template-columns: 1fr; }
+  .gallery img { max-height: 70vh; object-position: center 15%; }
   .fields, .facts { grid-template-columns: 1fr; }
   .span-2 { grid-column: auto; }
   .menu-name span { white-space: normal; }
